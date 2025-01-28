@@ -3,12 +3,80 @@ Antonio Caro Benítez
 1º DAW B
 Entornos De Desarrollo, Unidad 5, Práctica 5.1
 
-#1. Interpreta el significado del diagrama de clases.#
+# Interpretación del Diagrama de Clases  
 
-a) Relación entre las clases. Significado, tipo, multiplicidad.
+## 1. Relación entre las Clases  
 
-Tipo: Asociación de composición
-Significado: Un curso contiene estudiantes, lo que significa que un curso no puede existir sin sus estudiantes.
-Multiplicidad:
-Un curso (Curso) puede contener múltiples estudiantes (*).
-Cada estudiante pertenece a exactamente un curso (1).
+### a) Tipo, Significado y Multiplicidad  
+- **Tipo:** Asociación de composición  
+- **Significado:** Un curso **contiene** estudiantes, es decir, un curso no puede existir sin sus estudiantes.  
+- **Multiplicidad:**  
+  - Un curso (`Curso`) puede contener **múltiples** estudiantes (`*`).  
+  - Cada estudiante pertenece a **exactamente un** curso (`1`).  
+
+---
+
+## 2. Elementos de las Clases  
+
+### Clase `Curso`  
+- **Atributos:**  
+  - `nombre` (String): Nombre del curso.  
+  - `codigo` (String): Código identificador del curso.  
+  - `estudiantes` (MutableList): Lista de estudiantes inscritos en el curso.  
+- **Métodos:**  
+  - `agregarAlumno(Estudiante estudiante)`: Agrega un estudiante a la lista.  
+  - `mostrarEstudiantes()`: Muestra la lista de estudiantes.  
+
+### Clase `Estudiante`  
+- **Atributos:**  
+  - `nombre` (String): Nombre del estudiante.  
+  - `dni` (String): Identificación del estudiante.  
+- **Métodos:**  
+  - `inscribirse(Curso curso)`: Permite al estudiante inscribirse en un curso.  
+
+---
+
+## 3. Explicación de Métodos  
+
+### `agregarAlumno()`  
+Este método **pertenece a la clase `Curso`** y se encarga de **agregar un estudiante a la lista de estudiantes del curso**.  
+
+**Funcionamiento:**  
+1. Recibe un objeto de tipo `Estudiante`.  
+2. Lo añade a la lista `estudiantes` del curso.  
+
+### `inscribirse()`  
+Este método **pertenece a la clase `Estudiante`** y permite que un estudiante **se inscriba en un curso**.  
+
+**Funcionamiento:**  
+1. Recibe un objeto de tipo `Curso`.  
+2. Llama al método `agregarAlumno()` del curso para inscribirse en la lista.  
+
+---
+
+# Generación de Código en Kotlin  
+
+## 1. Creación de Clases  
+
+```kotlin
+class Curso(val nombre: String, val codigo: String) {
+    private val estudiantes = mutableListOf<Estudiante>()
+
+    fun agregarAlumno(estudiante: Estudiante) {
+        estudiantes.add(estudiante)
+        println("Estudiante ${estudiante.nombre} inscrito en el curso $nombre")
+    }
+
+    fun mostrarEstudiantes() {
+        println("Estudiantes en el curso $nombre:")
+        for (estudiante in estudiantes) {
+            println("- ${estudiante.nombre} (${estudiante.dni})")
+        }
+    }
+}
+
+class Estudiante(val nombre: String, val dni: String) {
+    fun inscribirse(curso: Curso) {
+        curso.agregarAlumno(this)
+    }
+}
